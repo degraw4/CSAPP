@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// O(logn)
 unsigned int get_hight_bit(unsigned int a)
 {
     unsigned int prev = a, curr = a;
@@ -11,6 +12,7 @@ unsigned int get_hight_bit(unsigned int a)
     return prev;
 }
 
+// O(loglogn)
 // 将最高位的1向后扩散到比它低的所有位置，再加一，右移
 unsigned hight_bit(unsigned x){//0010 1100 0000 0000 0000 0000 0000 0000 0000 0001
 	x = x|(x>>1);              //0011 1110 0000 0000 0000 0000 0000 0000 0000 0000
