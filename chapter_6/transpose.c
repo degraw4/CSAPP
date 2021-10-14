@@ -9,8 +9,10 @@ void transpose(int dim, int src[][dim], int dst[][dim]){
             dst[i][j] = src[j][i];
 }
 
-// 每次对src和dst各读入一个block，block大小为 MAX_BLOCK * MAX_BLOCK
-// 即BLOCKING技术不是向cache中单独读入一行或者读入一列(实际上也无法读入一列)，而是读入行*列构成的block
+// 每次对src和dst各读入一个block
+// 即BLOCKING技术不是向cache中单独读入一行或者读入一列(实际上也无法读入一列)，各自的前几行(不一定是正方形)
+// 各自读入block之后，dst还会出现不命中当前block的情况，需要替换多次block(column/MAX_BLOCK次)，但仍然大大提升了效率
+// 内部循环也可以用循环展开，或者临时变量提出src，防止cache只够一个block的大小导致src和dst的读写造成的抖动
 void faster_transpose(int dim, int src[][dim], int dst[][dim]){
     for(int i = 0; i < dim; i += MAX_BLOCK)
         for(int j = 0; j < dim; j += MAX_BLOCK)
