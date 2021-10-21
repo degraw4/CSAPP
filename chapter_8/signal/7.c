@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 
-// 显示等待信号
+// 显式等待信号
 
 volatile sig_atomic_t pid;
 
@@ -31,9 +31,11 @@ int main(int argc, char** argv)
             exit(0);
         }
 
-        // 显示等待SIGCHLD
+        // 显式等待SIGCHLD
         pid = 0;
-        while(!pid)
+        // while(!pid)
+        //     sigsuspend(&prev_mask);
+        if(!pid)
             sigsuspend(&prev_mask);
         
         sigprocmask(SIG_SETMASK, &prev_mask, NULL);
